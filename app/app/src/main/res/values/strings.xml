@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">UNAERP-Desafio-5-Etapa</string>
+    <string name="app_image_description">Logo do aplicativo</string>
+    <string name="login_message">Entre com sua Conta</string>
+    <string name="create_account_message">Não possui conta? Entre aqui</string>
+    <string name="input_mail">E-Mail</string>
+    <string name="input_password">Senha</string>
+    <string name="login_button">Entrar</string>
 </resources>

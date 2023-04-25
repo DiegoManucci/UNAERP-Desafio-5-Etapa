@@ -11,7 +11,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 class CadastroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.cadastro)
+        setContentView(R.layout.activity_cadastro)
 
         // Initialize views
         var nameEditText = findViewById<EditText>(R.id.name_input)
@@ -40,7 +40,7 @@ class CadastroActivity : AppCompatActivity() {
         var loginMessage = findViewById<TextView>(R.id.login_account_message)
 
         loginMessage.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }

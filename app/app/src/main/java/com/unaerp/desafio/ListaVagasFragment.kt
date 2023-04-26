@@ -1,18 +1,22 @@
 package com.unaerp.desafio
 
-import com.unaerp.desafio.R
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
+import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ListaVagasFragment : Fragment() {
 
+    private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var vagaListAdapter: VagaAdapter
 
@@ -76,27 +80,26 @@ class ListaVagasFragment : Fragment() {
     )
     private var sortDateState = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val rootView = inflater.inflate(R.layout.fragment_lista_vagas, container, false)
         recyclerView = rootView.findViewById(R.id.recycler_view_job_list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         vagaListAdapter = VagaAdapter(dummyList, object : VagaAdapter.JobItemClickListener {
             override fun onJobItemClick(vaga: Vaga) {
-                TODO("Not yet implemented")
+                return
             }
         })
         recyclerView.adapter = vagaListAdapter
+
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
-        toolbar.inflateMenu(R.menu.menu)
+
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_sort -> {
@@ -104,8 +107,36 @@ class ListaVagasFragment : Fragment() {
                     sortDateState = !sortDateState
                     true
                 }
+                R.id.action_profile -> {
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, PerfilFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
                 else -> false
             }
         }
+
+        val searchItem = toolbar.menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                var filteredList: MutableList<Vaga> = ArrayList()
+                dummyList.forEach{
+                        vaga ->
+                    if (newText != null && vaga.area.toLowerCase().contains(newText.toLowerCase())){
+                        filteredList.add(vaga)
+                    }
+                }
+                vagaListAdapter.setFilteredList(filteredList)
+                return true
+            }
+        })
     }
 }

@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 class VagaAdapter(private var jobs: List<Vaga>, private val listener: JobItemClickListener) :
     RecyclerView.Adapter<VagaAdapter.VagaViewHolder>() {
+
+    private var jobsFiltered: MutableList<Vaga> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VagaViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -50,6 +51,10 @@ class VagaAdapter(private var jobs: List<Vaga>, private val listener: JobItemCli
         }
     }
 
+    interface JobItemClickListener {
+        fun onJobItemClick(vaga: Vaga)
+    }
+
     fun sortByStartDate(desc: Boolean) {
         if (desc){
             jobs = jobs.sortedByDescending { it.startDate }
@@ -59,7 +64,8 @@ class VagaAdapter(private var jobs: List<Vaga>, private val listener: JobItemCli
         notifyDataSetChanged()
     }
 
-    interface JobItemClickListener {
-        fun onJobItemClick(vaga: Vaga)
+    fun setFilteredList(filteredList: MutableList<Vaga>) {
+        jobs = filteredList
+        notifyDataSetChanged()
     }
 }

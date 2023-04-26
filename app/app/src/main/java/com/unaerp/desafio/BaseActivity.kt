@@ -14,26 +14,9 @@ class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        // Pega o FragmentManager
         val fragmentManager: FragmentManager = supportFragmentManager
-
-        // Abre uma transação e adiciona
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.fragment_content, ListaVagasFragment())
         fragmentTransaction.commit()
-
-        // Substitui um Fragment
-//        val ft: FragmentTransaction = fragmentManager.beginTransaction()
-//        ft.replace(R.id.fragment_content, MainFragment())
-//        ft.commit()
-
-        // Remove um Fragment
-//        val fragment: Fragment? = fragmentManager.findFragmentById(R.id.fragment_content)
-//        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-//        if (fragment != null) {
-//            ft.remove(fragment)
-//        }
-//        ft.commit()
-
     }
 }

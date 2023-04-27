@@ -1,6 +1,8 @@
 package com.unaerp.desafio
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.view.menu.MenuView.ItemView
@@ -81,7 +83,6 @@ class ListaVagasFragment : Fragment() {
     private var sortDateState = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         val rootView = inflater.inflate(R.layout.fragment_lista_vagas, container, false)
         recyclerView = rootView.findViewById(R.id.recycler_view_job_list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -100,6 +101,14 @@ class ListaVagasFragment : Fragment() {
 
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
 
+        val sharedPreferences =  requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val role = sharedPreferences.getString("ROLE", "nenhum")
+
+        if(role != "anunciante"){
+            val createItem = toolbar.menu.findItem(R.id.action_create)
+            createItem.isVisible = false
+        }
+
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_sort -> {
@@ -110,6 +119,13 @@ class ListaVagasFragment : Fragment() {
                 R.id.action_profile -> {
                     val transaction = requireActivity().supportFragmentManager.beginTransaction()
                     transaction.replace(R.id.fragment_content, PerfilFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_create -> {
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, CriarVagaFragment())
                     transaction.addToBackStack(null)
                     transaction.commit()
                     true

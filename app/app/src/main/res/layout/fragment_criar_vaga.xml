@@ -18,7 +18,8 @@
             android:elevation="4dp"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/menu"
-            app:titleTextColor="@android:color/white"></com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextColor="@android:color/white"
+        />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/area_layout"

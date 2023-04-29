@@ -8,11 +8,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/teal_700"
+        android:background="@color/primary"
         android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu"
-        app:titleTextColor="@android:color/white">
+        app:titleTextColor="@android:color/black">
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView

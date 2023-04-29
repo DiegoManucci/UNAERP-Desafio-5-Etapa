@@ -3,6 +3,7 @@ package com.unaerp.desafio
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.view.*
 import android.widget.Button
@@ -37,12 +38,60 @@ class CriarVagaFragment : Fragment() {
         val filterItem = toolbar.menu.findItem(R.id.action_search)
         filterItem.isVisible = false
 
+        val criarItem = toolbar.menu.findItem(R.id.action_create)
+        criarItem.isVisible = false
+
+        toolbar.title = "Criar Anúncio"
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            Log.d("VALOR", menuItem.itemId.toString())
+            when (menuItem.itemId) {
+                R.id.action_profile -> {
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, PerfilFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "meus")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios_gerais -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "gerais")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                else -> false
+            }
+        }
+
         val sharedPreferences =  requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val role = sharedPreferences.getString("ROLE", "nenhum")
 
         if(role != "anunciante"){
             val createItem = toolbar.menu.findItem(R.id.action_create)
             createItem.isVisible = false
+
+            val meusAnunciosItem = toolbar.menu.findItem(R.id.action_anuncios)
+            meusAnunciosItem.isVisible = false
         }
 
         toolbar.setOnMenuItemClickListener { menuItem ->
@@ -50,6 +99,32 @@ class CriarVagaFragment : Fragment() {
                 R.id.action_profile -> {
                     val transaction = requireActivity().supportFragmentManager.beginTransaction()
                     transaction.replace(R.id.fragment_content, PerfilFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "meus")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios_gerais -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "gerais")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
                     transaction.addToBackStack(null)
                     transaction.commit()
                     true
@@ -79,7 +154,6 @@ class CriarVagaFragment : Fragment() {
             val telefoneInput = view.findViewById<TextInputEditText>(R.id.telefone_input)
             val dtInicioInput = view.findViewById<TextInputEditText>(R.id.dtinicio_input)
             val dtFimInput = view.findViewById<TextInputEditText>(R.id.dtfim_input)
-            val radioGroup = view.findViewById<MaterialButtonToggleGroup>(R.id.toggleButton)
 
             val areaMask = Regex("[a-zA-Z\\s]+")
             val descricaoMask = Regex("[a-zA-Z0-9\\s]+")

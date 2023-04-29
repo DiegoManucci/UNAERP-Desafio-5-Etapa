@@ -14,9 +14,15 @@ class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
+        val bundle = Bundle()
+        bundle.putString("anuncios", "gerais")
+
+        val fragment = ListaVagasFragment()
+        fragment.arguments = bundle
+
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment_content, ListaVagasFragment())
+        fragmentTransaction.add(R.id.fragment_content, fragment)
         fragmentTransaction.commit()
     }
 }

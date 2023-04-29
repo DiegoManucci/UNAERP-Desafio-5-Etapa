@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/areaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Área:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/areaTextView"
+            android:text="Descrição:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/remunerationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descriptionTextView"
+            android:text="Remuneração:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/cityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/remunerationTextView"
+            android:text="Cidade:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/contactEmailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cityTextView"
+            android:text="E-mail de contato:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/contactPhoneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactEmailTextView"
+            android:text="Telefone de contato:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/advertiserTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactPhoneTextView"
+            android:text="Anunciante:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/startDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/advertiserTextView"
+            android:text="Data de início:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/endDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/startDateTextView"
+            android:text="Data de término:"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:id="@+id/areaValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/areaTextView"
+            android:layout_toEndOf="@id/areaTextView"
+            android:text="@{vaga.area}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:id="@+id/descriptionValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/descriptionTextView"
+            android:layout_toEndOf="@id/descriptionTextView"
+            android:text="@{vaga.description}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/remunerationValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/remunerationTextView"
+            android:layout_toEndOf="@id/remunerationTextView"
+            android:text="@{vaga.remuneration}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/cityValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/cityTextView"
+            android:layout_toEndOf="@id/cityTextView"
+            android:text="@{vaga.city}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/contactEmailValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/contactEmailTextView"
+            android:layout_toEndOf="@id/contactEmailTextView"
+            android:text="@{vaga.contactEmail}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/contactPhoneValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/contactPhoneTextView"
+            android:layout_toEndOf="@id/contactPhoneTextView"
+            android:text="@{vaga.contactPhone}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <ImageView
+            android:id="@+id/phoneImageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/endDateTextView"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/contactPhoneValueTextView"
+            android:clickable="true"
+            android:onClick="onPhoneIconClick"
+            android:src="@drawable/baseline_phone_24" />
+
+        <TextView
+            android:id="@+id/advertiserValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/advertiserTextView"
+            android:layout_toEndOf="@id/advertiserTextView"
+            android:text="@{vaga.advertiser}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/startDateValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/startDateTextView"
+            android:layout_toEndOf="@id/startDateTextView"
+            android:text="@{vaga.startDate}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/endDateValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/endDateTextView"
+            android:layout_toEndOf="@id/endDateTextView"
+            android:text="@{vaga.endDate}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+    </RelativeLayout>
+
+</FrameLayout>

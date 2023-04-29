@@ -1,6 +1,7 @@
 package com.unaerp.desafio
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.unaerp.desafio.model.Usuario
 
@@ -37,13 +39,34 @@ class PerfilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.title = "Meu Perfil"
+
+        val sortItem = toolbar.menu.findItem(R.id.action_sort)
+        sortItem.isVisible = false
+
+        val filterItem = toolbar.menu.findItem(R.id.action_search)
+        filterItem.isVisible = false
+
+        val profileItem = toolbar.menu.findItem(R.id.action_profile)
+        profileItem.isVisible = false
+
+        val sharedPreferences =  requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val role = sharedPreferences.getString("ROLE", "nenhum")
+
+        if(role != "anunciante"){
+            val createItem = toolbar.menu.findItem(R.id.action_create)
+            createItem.isVisible = false
+
+            val meusAnunciosItem = toolbar.menu.findItem(R.id.action_anuncios)
+            meusAnunciosItem.isVisible = false
+        }
+
         val salvarButton = view.findViewById<Button>(R.id.salvarButton)
         val cancelarButton = view.findViewById<Button>(R.id.cancelarButton)
 
         salvarButton.setOnClickListener {
-            if (inputName.text.toString().trim().isEmpty() ||
-                    inputEmail.text.toString().trim().isEmpty() ||
-                    inputPassword.text.toString().trim().isEmpty()) {
+            if (inputName.text.toString().trim().isEmpty() || inputEmail.text.toString().trim().isEmpty() || inputPassword.text.toString().trim().isEmpty()) {
                 Toast.makeText(
                     context,
                     "Você precisa obrigatoriamente preencher todos os campos!",
@@ -70,15 +93,61 @@ class PerfilFragment : Fragment() {
             builder.setMessage("Tem certeza que deseja cancelar a edição?")
 
             builder.setPositiveButton("Sim") { dialog, which ->
-                val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.fragment_content, ListaVagasFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
+                val fragmentManager = requireActivity().supportFragmentManager
+                if (fragmentManager.backStackEntryCount > 0) {
+                    fragmentManager.popBackStack()
+                }
             }
 
             builder.setNegativeButton("Não") { dialog, which -> }
 
             builder.show()
+        }
+
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_profile -> {
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, PerfilFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_create -> {
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, CriarVagaFragment())
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "meus")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios_gerais -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "gerais")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

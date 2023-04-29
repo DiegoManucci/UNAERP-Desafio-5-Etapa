@@ -14,13 +14,23 @@
         android:title="Ordenar por data"
         app:showAsAction="ifRoom|collapseActionView"/>
     <item
-        android:id="@+id/action_create"
-        android:icon="@drawable/ic_add"
-        android:title="Criar anúncio"
-        app:showAsAction="ifRoom|collapseActionView"/>
-    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_profile"
         android:title="Perfil"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/action_anuncios"
+        android:icon="@drawable/ic_anuncios"
+        android:title="Meus anúncios"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/action_anuncios_gerais"
+        android:icon="@drawable/ic_anuncios"
+        android:title="Outros anúncios"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/action_create"
+        android:icon="@drawable/ic_add"
+        android:title="Criar anúncio"
+        app:showAsAction="withText"/>
 </menu>

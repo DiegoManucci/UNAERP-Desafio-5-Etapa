@@ -3,6 +3,7 @@ package com.unaerp.desafio
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
@@ -18,7 +19,7 @@ class CadastroActivity : AppCompatActivity() {
         var mailEditText = findViewById<EditText>(R.id.mail_input)
         var passwordEditText = findViewById<EditText>(R.id.password_input)
 
-        val cadastroButton = findViewById<MaterialButton>(R.id.cadastro_button)
+        val cadastroButton = findViewById<Button>(R.id.cadastro_button)
         cadastroButton.setOnClickListener {
             val name = nameEditText.text.toString()
             val email = mailEditText.text.toString()
@@ -37,9 +38,9 @@ class CadastroActivity : AppCompatActivity() {
             passwordEditText.text?.clear()
         }
 
-        var loginMessage = findViewById<TextView>(R.id.login_account_message)
+        var loginButton = findViewById<Button>(R.id.login_button)
 
-        loginMessage.setOnClickListener {
+        loginButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }

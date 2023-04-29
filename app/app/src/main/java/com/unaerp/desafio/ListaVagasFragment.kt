@@ -1,5 +1,6 @@
 package com.unaerp.desafio
 
+import Vaga
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -18,77 +19,170 @@ import kotlin.collections.ArrayList
 
 class ListaVagasFragment : Fragment() {
 
-    private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var vagaListAdapter: VagaAdapter
 
-    val formatter = SimpleDateFormat("dd/MM/yyyy")
-    private var dummyList = listOf(
-        Vaga(
-            "Design",
-            "UX Designer",
-            5000.00,
-            "São Paulo",
-            "contato@empresa.com",
-            "(11) 1111-1111",
-            "Empresa A",
-            formatter.parse("01/05/2023"),
-            formatter.parse("31/05/2023")
-        ),
-        Vaga(
-            "Software Development",
-            "Android Developer",
-            8000.00,
-            "Rio de Janeiro",
-            "contato@empresa.com",
-            "(21) 2222-2222",
-            null,
-            formatter.parse("10/05/2023"),
-            formatter.parse("30/06/2023")
-        ),
-        Vaga(
-            "Marketing",
-            "Social Media Manager",
-            4000.00,
-            "Belo Horizonte",
-            "contato@empresa.com",
-            "(31) 3333-3333",
-            "Empresa B",
-            formatter.parse("15/05/2023"),
-            formatter.parse("30/05/2023")
-        ),
-        Vaga(
-            "Data Science",
-            "Data Analyst",
-            6000.00,
-            "Porto Alegre",
-            "contato@empresa.com",
-            "(51) 4444-4444",
-            null,
-            formatter.parse("01/06/2023"),
-            formatter.parse("30/06/2023")
-        ),
-        Vaga(
-            "Web Development",
-            "Full-Stack Developer",
-            10000.00,
-            "Curitiba",
-            "contato@empresa.com",
-            "(41) 5555-5555",
-            "Empresa C",
-            formatter.parse("01/07/2023"),
-            formatter.parse("31/07/2023")
-        )
-    )
+    private lateinit var anuncios: List<Vaga>
     private var sortDateState = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val rootView = inflater.inflate(R.layout.fragment_lista_vagas, container, false)
+
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+
+        val tipoAnuncios = arguments?.getString("anuncios")
+
+        if (tipoAnuncios == "gerais") {
+            anuncios = listOf(
+                Vaga(
+                    "Design",
+                    "UX Designer",
+                    5000.00,
+                    "São Paulo",
+                    "contato@empresa.com",
+                    "(11) 1111-1111",
+                    "Empresa A",
+                    formatter.parse("01/05/2023"),
+                    formatter.parse("31/05/2023")
+                ),
+                Vaga(
+                    "Software Development",
+                    "Android Developer",
+                    8000.00,
+                    "Rio de Janeiro",
+                    "contato@empresa.com",
+                    "(21) 2222-2222",
+                    null,
+                    formatter.parse("10/05/2023"),
+                    formatter.parse("30/06/2023")
+                ),
+                Vaga(
+                    "Marketing",
+                    "Social Media Manager",
+                    4000.00,
+                    "Belo Horizonte",
+                    "contato@empresa.com",
+                    "(31) 3333-3333",
+                    "Empresa B",
+                    formatter.parse("15/05/2023"),
+                    formatter.parse("30/05/2023")
+                ),
+                Vaga(
+                    "Data Science",
+                    "Data Analyst",
+                    6000.00,
+                    "Porto Alegre",
+                    "contato@empresa.com",
+                    "(51) 4444-4444",
+                    null,
+                    formatter.parse("01/06/2023"),
+                    formatter.parse("30/06/2023")
+                ),
+                Vaga(
+                    "Web Development",
+                    "Full-Stack Developer",
+                    10000.00,
+                    "Curitiba",
+                    "contato@empresa.com",
+                    "(41) 5555-5555",
+                    "Empresa C",
+                    formatter.parse("01/07/2023"),
+                    formatter.parse("31/07/2023")
+                ),
+                Vaga(
+                    "Design",
+                    "UX Designer",
+                    5000.00,
+                    "São Paulo",
+                    "contato@empresa.com",
+                    "(11) 1111-1111",
+                    "Empresa A",
+                    formatter.parse("01/05/2023"),
+                    formatter.parse("31/05/2023")
+                ),
+                Vaga(
+                    "Software Development",
+                    "Android Developer",
+                    8000.00,
+                    "Rio de Janeiro",
+                    "contato@empresa.com",
+                    "(21) 2222-2222",
+                    null,
+                    formatter.parse("10/05/2023"),
+                    formatter.parse("30/06/2023")
+                ),
+                Vaga(
+                    "Marketing",
+                    "Social Media Manager",
+                    4000.00,
+                    "Belo Horizonte",
+                    "contato@empresa.com",
+                    "(31) 3333-3333",
+                    "Empresa B",
+                    formatter.parse("15/05/2023"),
+                    formatter.parse("30/05/2023")
+                ),
+                Vaga(
+                    "Data Science",
+                    "Data Analyst",
+                    6000.00,
+                    "Porto Alegre",
+                    "contato@empresa.com",
+                    "(51) 4444-4444",
+                    null,
+                    formatter.parse("01/06/2023"),
+                    formatter.parse("30/06/2023")
+                ),
+                Vaga(
+                    "Web Development",
+                    "Full-Stack Developer",
+                    10000.00,
+                    "Curitiba",
+                    "contato@empresa.com",
+                    "(41) 5555-5555",
+                    "Empresa C",
+                    formatter.parse("01/07/2023"),
+                    formatter.parse("31/07/2023")
+                )
+            )
+        } else {
+            anuncios = listOf(
+                Vaga(
+                    "Design",
+                    "UX Designer",
+                    5000.00,
+                    "São Paulo",
+                    "contato@empresa.com",
+                    "(11) 1111-1111",
+                    "Empresa A",
+                    formatter.parse("01/05/2023"),
+                    formatter.parse("31/05/2023")
+                ),
+                Vaga(
+                    "Software Development",
+                    "Android Developer",
+                    8000.00,
+                    "Rio de Janeiro",
+                    "contato@empresa.com",
+                    "(21) 2222-2222",
+                    null,
+                    formatter.parse("10/05/2023"),
+                    formatter.parse("30/06/2023")
+                ),
+            )
+        }
+
         recyclerView = rootView.findViewById(R.id.recycler_view_job_list)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        vagaListAdapter = VagaAdapter(dummyList, object : VagaAdapter.JobItemClickListener {
+
+        vagaListAdapter = VagaAdapter(anuncios, object : VagaAdapter.JobItemClickListener {
             override fun onJobItemClick(vaga: Vaga) {
-                return
+                val myDialog = VagaDialogFragment(vaga)
+                myDialog.show(requireActivity().supportFragmentManager, "vagaDialog")
             }
         })
         recyclerView.adapter = vagaListAdapter
@@ -101,12 +195,29 @@ class ListaVagasFragment : Fragment() {
 
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
 
-        val sharedPreferences =  requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val tipoAnuncios = arguments?.getString("anuncios")
+
+        if (tipoAnuncios == "gerais") {
+            toolbar.title = "Anúncios"
+            val anunciosItem = toolbar.menu.findItem(R.id.action_anuncios_gerais)
+            anunciosItem.isVisible = false
+
+        } else {
+            toolbar.title = "Meus Anúncios"
+            val meusAnunciosItem = toolbar.menu.findItem(R.id.action_anuncios)
+            meusAnunciosItem.isVisible = false
+        }
+
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val role = sharedPreferences.getString("ROLE", "nenhum")
 
-        if(role != "anunciante"){
+        if (role != "anunciante") {
             val createItem = toolbar.menu.findItem(R.id.action_create)
             createItem.isVisible = false
+
+            val meusAnunciosItem = toolbar.menu.findItem(R.id.action_anuncios)
+            meusAnunciosItem.isVisible = false
         }
 
         toolbar.setOnMenuItemClickListener { menuItem ->
@@ -130,6 +241,32 @@ class ListaVagasFragment : Fragment() {
                     transaction.commit()
                     true
                 }
+                R.id.action_anuncios -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "meus")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.action_anuncios_gerais -> {
+                    val bundle = Bundle()
+                    bundle.putString("anuncios", "gerais")
+
+                    val fragment = ListaVagasFragment()
+                    fragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_content, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
                 else -> false
             }
         }
@@ -144,9 +281,10 @@ class ListaVagasFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 var filteredList: MutableList<Vaga> = ArrayList()
-                dummyList.forEach{
-                        vaga ->
-                    if (newText != null && vaga.area.toLowerCase().contains(newText.toLowerCase())){
+                anuncios.forEach { vaga ->
+                    if (newText != null && vaga.area.toLowerCase()
+                            .contains(newText.toLowerCase())
+                    ) {
                         filteredList.add(vaga)
                     }
                 }

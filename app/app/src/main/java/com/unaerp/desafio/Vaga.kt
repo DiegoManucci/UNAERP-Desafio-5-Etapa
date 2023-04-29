@@ -1,5 +1,5 @@
-package com.unaerp.desafio
-
+import android.os.Parcel
+import android.os.Parcelable
 import java.util.*
 
 data class Vaga(

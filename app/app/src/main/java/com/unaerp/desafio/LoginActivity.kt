@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -13,7 +14,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        var loginButton = findViewById<TextView>(R.id.loginButton)
+        var loginButton = findViewById<Button>(R.id.loginButton)
+        var cadastroButton = findViewById<Button>(R.id.cadastroButton)
         val emailEditText = findViewById<EditText>(R.id.inputEmail)
         val passwordEditText = findViewById<EditText>(R.id.inputPassword)
 
@@ -44,10 +46,8 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-        
-        var cadastroMessage = findViewById<TextView>(R.id.cadastro_message)
 
-        cadastroMessage.setOnClickListener {
+        cadastroButton.setOnClickListener {
             val intent = Intent(this, CadastroActivity::class.java)
             startActivity(intent)
         }

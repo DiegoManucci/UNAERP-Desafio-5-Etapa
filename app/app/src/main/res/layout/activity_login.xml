@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <LinearLayout
         android:gravity="center"
@@ -69,6 +69,7 @@
                         android:id="@+id/inputEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
                         android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -89,6 +90,8 @@
                         android:id="@+id/inputPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="textPassword"
                         android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -97,32 +100,42 @@
                 android:id="@+id/loginButtonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="vertical">
                 <Button
-                    android:textColor="@color/black"
-                    android:background="@drawable/button_rounded"
                     android:id="@+id/loginButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:backgroundTint="@null"
-                    android:hint="@string/login_button" />
+                    android:text="@string/login_button" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/cadastroButtonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="vertical">
                 <Button
-                    android:background="@drawable/button_rounded"
                     android:id="@+id/cadastroButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:hint="CRIAR CONTA" />
+                    android:text="CRIAR CONTA" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/forgotPasswordLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/forgotPasswordButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Esqueci a senha" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

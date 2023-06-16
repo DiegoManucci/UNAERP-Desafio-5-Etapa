@@ -1,8 +1,9 @@
-package com.unaerp.desafio
+package com.unaerp.desafio.fragments
 
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,27 +12,32 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
+import com.unaerp.desafio.R
 import com.unaerp.desafio.model.Usuario
+import com.unaerp.desafio.model.Vaga
+import com.unaerp.desafio.responses.AnnouncementResponse
+import com.unaerp.desafio.responses.UserResponse
+import com.unaerp.desafio.services.AnnouncementService
+import com.unaerp.desafio.services.UserService
+import com.unaerp.desafio.services.config.ServiceCreator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PerfilFragment : Fragment() {
 
     private lateinit var inputName: TextInputEditText
     private lateinit var inputEmail: TextInputEditText
     private lateinit var inputPassword: TextInputEditText
-    private lateinit var usuario: Usuario
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_perfil, container, false)
-
-        usuario = Usuario("Diego Brino", "diegobrino@unaerp.br", "123deOlivera4")
 
         inputName = rootView.findViewById(R.id.inputName)
         inputEmail = rootView.findViewById(R.id.inputEmail)
         inputPassword = rootView.findViewById(R.id.inputPassword)
 
-        inputName.setText(usuario.email)
-        inputEmail.setText(usuario.nome)
-        inputPassword.setText(usuario.senha)
+        getUser()
 
         return rootView
     }
@@ -69,22 +75,14 @@ class PerfilFragment : Fragment() {
             if (inputName.text.toString().trim().isEmpty() || inputEmail.text.toString().trim().isEmpty() || inputPassword.text.toString().trim().isEmpty()) {
                 Toast.makeText(
                     context,
-                    "Você precisa obrigatoriamente preencher todos os campos!",
+                    "Você precisa preencher todos os campos!",
                     Toast.LENGTH_SHORT
                 ).show()
 
                 return@setOnClickListener;
             }
 
-            usuario.nome = inputName.text.toString()
-            usuario.email = inputEmail.text.toString()
-            usuario.senha = inputPassword.text.toString()
-
-            Toast.makeText(
-                context,
-                "Perfil editado com sucesso!",
-                Toast.LENGTH_SHORT
-            ).show()
+            updateUser()
         }
 
         cancelarButton.setOnClickListener {
@@ -148,6 +146,76 @@ class PerfilFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun updateUser() {
+        val service = ServiceCreator.createService<UserService>()
+
+        val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences?.getString("TOKEN", null)
+
+        if (token != null) {
+            service.updateUser(token.toInt(), inputName.text.toString(), inputEmail.text.toString(), inputPassword.text.toString()).enqueue(UpdateUserCallback())
+        }
+    }
+
+    inner class UpdateUserCallback : Callback<UserResponse> {
+        override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+            if (response.isSuccessful) {
+                val userResponse = response.body()
+
+                Log.d("USER", userResponse.toString())
+
+                if (userResponse != null) {
+                    inputName.setText(userResponse.name)
+                    inputEmail.setText(userResponse.email)
+                    inputPassword.setText(userResponse.password)
+                }
+
+                Toast.makeText(
+                    context,
+                    "Perfil editado com sucesso!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(context, "Erro ao atualizar usuário!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            Toast.makeText(context, "Erro ao atualizar usuário!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getUser() {
+        val service = ServiceCreator.createService<UserService>()
+
+        val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences?.getString("TOKEN", null)
+
+        if (token != null) {
+            service.getUser(token.toInt()).enqueue(GetUserCallback())
+        }
+    }
+
+    inner class GetUserCallback : Callback<UserResponse> {
+        override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+            if (response.isSuccessful) {
+                val userResponse = response.body()
+
+                if (userResponse != null) {
+                    inputName.setText(userResponse.name)
+                    inputEmail.setText(userResponse.email)
+                    inputPassword.setText(userResponse.password)
+                }
+            } else {
+                Toast.makeText(context, "Erro ao buscar usuário!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            Toast.makeText(context, "Erro ao buscar usuário!", Toast.LENGTH_SHORT).show()
         }
     }
 }

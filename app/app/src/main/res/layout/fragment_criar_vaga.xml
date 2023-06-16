@@ -197,13 +197,12 @@
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <com.google.android.material.button.MaterialButton
-            android:background="@drawable/button_rounded"
             android:id="@+id/criarButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="16dp"
-            android:hint="Criar"
+            android:text="Criar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toggleButton"
             tools:layout_editor_absoluteX="10dp" />

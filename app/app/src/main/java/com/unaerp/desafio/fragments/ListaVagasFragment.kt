@@ -1,19 +1,31 @@
-package com.unaerp.desafio
+package com.unaerp.desafio.fragments
 
-import Vaga
+import com.unaerp.desafio.model.Vaga
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.SearchView
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.fragment.app.FragmentManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.unaerp.desafio.R
+import com.unaerp.desafio.activities.BaseActivity
+import com.unaerp.desafio.adapters.VagaAdapter
+import com.unaerp.desafio.responses.AnnouncementResponse
+import com.unaerp.desafio.responses.LoginResponse
+import com.unaerp.desafio.services.AnnouncementService
+import com.unaerp.desafio.services.UserService
+import com.unaerp.desafio.services.config.ServiceCreator
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -22,8 +34,10 @@ class ListaVagasFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var vagaListAdapter: VagaAdapter
 
-    private lateinit var anuncios: List<Vaga>
+    private var anuncios: List<Vaga> = listOf()
     private var sortDateState = false
+
+    val formatter = SimpleDateFormat("dd/MM/yyyy")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,148 +46,16 @@ class ListaVagasFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_lista_vagas, container, false)
 
-        val formatter = SimpleDateFormat("dd/MM/yyyy")
-
         val tipoAnuncios = arguments?.getString("anuncios")
 
+        if(tipoAnuncios == null){
+            return@onCreateView rootView
+        }
+
         if (tipoAnuncios == "gerais") {
-            anuncios = listOf(
-                Vaga(
-                    "Design",
-                    "UX Designer",
-                    5000.00,
-                    "São Paulo",
-                    "contato@empresa.com",
-                    "(11) 1111-1111",
-                    "Empresa A",
-                    formatter.parse("01/05/2023"),
-                    formatter.parse("31/05/2023")
-                ),
-                Vaga(
-                    "Software Development",
-                    "Android Developer",
-                    8000.00,
-                    "Rio de Janeiro",
-                    "contato@empresa.com",
-                    "(21) 2222-2222",
-                    null,
-                    formatter.parse("10/05/2023"),
-                    formatter.parse("30/06/2023")
-                ),
-                Vaga(
-                    "Marketing",
-                    "Social Media Manager",
-                    4000.00,
-                    "Belo Horizonte",
-                    "contato@empresa.com",
-                    "(31) 3333-3333",
-                    "Empresa B",
-                    formatter.parse("15/05/2023"),
-                    formatter.parse("30/05/2023")
-                ),
-                Vaga(
-                    "Data Science",
-                    "Data Analyst",
-                    6000.00,
-                    "Porto Alegre",
-                    "contato@empresa.com",
-                    "(51) 4444-4444",
-                    null,
-                    formatter.parse("01/06/2023"),
-                    formatter.parse("30/06/2023")
-                ),
-                Vaga(
-                    "Web Development",
-                    "Full-Stack Developer",
-                    10000.00,
-                    "Curitiba",
-                    "contato@empresa.com",
-                    "(41) 5555-5555",
-                    "Empresa C",
-                    formatter.parse("01/07/2023"),
-                    formatter.parse("31/07/2023")
-                ),
-                Vaga(
-                    "Design",
-                    "UX Designer",
-                    5000.00,
-                    "São Paulo",
-                    "contato@empresa.com",
-                    "(11) 1111-1111",
-                    "Empresa A",
-                    formatter.parse("01/05/2023"),
-                    formatter.parse("31/05/2023")
-                ),
-                Vaga(
-                    "Software Development",
-                    "Android Developer",
-                    8000.00,
-                    "Rio de Janeiro",
-                    "contato@empresa.com",
-                    "(21) 2222-2222",
-                    null,
-                    formatter.parse("10/05/2023"),
-                    formatter.parse("30/06/2023")
-                ),
-                Vaga(
-                    "Marketing",
-                    "Social Media Manager",
-                    4000.00,
-                    "Belo Horizonte",
-                    "contato@empresa.com",
-                    "(31) 3333-3333",
-                    "Empresa B",
-                    formatter.parse("15/05/2023"),
-                    formatter.parse("30/05/2023")
-                ),
-                Vaga(
-                    "Data Science",
-                    "Data Analyst",
-                    6000.00,
-                    "Porto Alegre",
-                    "contato@empresa.com",
-                    "(51) 4444-4444",
-                    null,
-                    formatter.parse("01/06/2023"),
-                    formatter.parse("30/06/2023")
-                ),
-                Vaga(
-                    "Web Development",
-                    "Full-Stack Developer",
-                    10000.00,
-                    "Curitiba",
-                    "contato@empresa.com",
-                    "(41) 5555-5555",
-                    "Empresa C",
-                    formatter.parse("01/07/2023"),
-                    formatter.parse("31/07/2023")
-                )
-            )
+            getAllAnnouncements()
         } else {
-            anuncios = listOf(
-                Vaga(
-                    "Design",
-                    "UX Designer",
-                    5000.00,
-                    "São Paulo",
-                    "contato@empresa.com",
-                    "(11) 1111-1111",
-                    "Empresa A",
-                    formatter.parse("01/05/2023"),
-                    formatter.parse("31/05/2023")
-                ),
-                Vaga(
-                    "Software Development",
-                    "Android Developer",
-                    8000.00,
-                    "Rio de Janeiro",
-                    "contato@empresa.com",
-                    "(21) 2222-2222",
-                    null,
-                    formatter.parse("10/05/2023"),
-                    formatter.parse("30/06/2023")
-                ),
-            )
+            getMyAnnouncements()
         }
 
         recyclerView = rootView.findViewById(R.id.recycler_view_job_list)
@@ -182,9 +64,10 @@ class ListaVagasFragment : Fragment() {
         vagaListAdapter = VagaAdapter(anuncios, object : VagaAdapter.JobItemClickListener {
             override fun onJobItemClick(vaga: Vaga) {
                 val myDialog = VagaDialogFragment(vaga)
+
                 myDialog.show(requireActivity().supportFragmentManager, "vagaDialog")
             }
-        })
+        }, ::delete, tipoAnuncios)
         recyclerView.adapter = vagaListAdapter
 
         return rootView
@@ -292,5 +175,90 @@ class ListaVagasFragment : Fragment() {
                 return true
             }
         })
+    }
+
+    private fun getAllAnnouncements() {
+        val service = ServiceCreator.createService<AnnouncementService>()
+        service.getAll().enqueue(GetAllAnnouncementsCallback())
+    }
+
+    private fun getMyAnnouncements() {
+        val service = ServiceCreator.createService<AnnouncementService>()
+
+        val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences?.getString("TOKEN", null)
+
+        if (token != null) {
+            service.getMy(token.toInt()).enqueue(GetMyAnnouncementsCallback())
+        }
+    }
+
+    inner class GetAllAnnouncementsCallback : Callback<List<AnnouncementResponse>> {
+        override fun onResponse(call: Call<List<AnnouncementResponse>>, response: Response<List<AnnouncementResponse>>) {
+            anuncios = response.body()?.map { announcement ->
+                Vaga(
+                    announcement.idannouncement,
+                    announcement.area,
+                    announcement.description,
+                    announcement.remuneration,
+                    announcement.city,
+                    announcement.email,
+                    announcement.phone,
+                    announcement.advertiser,
+                    announcement.startDate,
+                    announcement.endDate
+                )
+            } ?: listOf()
+
+            vagaListAdapter.setFilteredList(anuncios as MutableList<Vaga>)
+        }
+
+        override fun onFailure(call: Call<List<AnnouncementResponse>>, t: Throwable) {
+            Toast.makeText(context, "Erro ao buscar vagas!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    inner class GetMyAnnouncementsCallback : Callback<List<AnnouncementResponse>> {
+        override fun onResponse(call: Call<List<AnnouncementResponse>>, response: Response<List<AnnouncementResponse>>) {
+
+            Log.d("teste", response.body().toString())
+
+            anuncios = response.body()?.map { announcement ->
+                Vaga(
+                    announcement.idannouncement,
+                    announcement.area,
+                    announcement.description,
+                    announcement.remuneration,
+                    announcement.city,
+                    announcement.email,
+                    announcement.phone,
+                    announcement.advertiser,
+                    announcement.startDate,
+                    announcement.endDate
+                )
+            } ?: listOf()
+
+            vagaListAdapter.setFilteredList(anuncios as MutableList<Vaga>)
+        }
+
+        override fun onFailure(call: Call<List<AnnouncementResponse>>, t: Throwable) {
+            Toast.makeText(context, "Erro ao buscar vagas!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun delete(id: Int) {
+        val service = ServiceCreator.createService<AnnouncementService>()
+        service.deletar(id).enqueue(deleteCallback())
+    }
+
+    inner class deleteCallback : Callback<Unit> {
+        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+            Toast.makeText(context, "Vaga deletada com sucesso!", Toast.LENGTH_SHORT).show()
+            getMyAnnouncements()
+        }
+
+        override fun onFailure(call: Call<Unit>, t: Throwable) {
+            Toast.makeText(context, "Erro ao buscar vagas!", Toast.LENGTH_SHORT).show()
+        }
     }
 }

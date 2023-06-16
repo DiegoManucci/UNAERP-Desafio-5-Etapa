@@ -1,15 +1,17 @@
-package com.unaerp.desafio
+package com.unaerp.desafio.adapters
 
-import Vaga
+import com.unaerp.desafio.model.Vaga
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.unaerp.desafio.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class VagaAdapter(private var jobs: List<Vaga>, private val listener: JobItemClickListener) :
+class VagaAdapter(private var jobs: List<Vaga>, private val listener: JobItemClickListener, private val deletar: (Int) -> Unit, private val tipoAnuncios: String) :
     RecyclerView.Adapter<VagaAdapter.VagaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VagaViewHolder {
@@ -26,22 +28,31 @@ class VagaAdapter(private var jobs: List<Vaga>, private val listener: JobItemCli
         return jobs.size
     }
 
-    class VagaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class VagaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val areaTextView: TextView = itemView.findViewById(R.id.textArea)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.textDescription)
         private val locationTextView: TextView = itemView.findViewById(R.id.textLocation)
         private val startDateTextView: TextView = itemView.findViewById(R.id.textStartDate)
         private val endDateTextView: TextView = itemView.findViewById(R.id.textEndDate)
 
-        fun bind(vaga: Vaga, listener: JobItemClickListener) {
-            val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US)
-            val formatter = SimpleDateFormat("dd/MM/yyyy")
+        private val deletebutton: Button = itemView.findViewById(R.id.deleteButton)
 
+
+
+        fun bind(vaga: Vaga, listener: JobItemClickListener) {
             areaTextView.text = vaga.area
             descriptionTextView.text = vaga.description
             locationTextView.text = vaga.city
-            startDateTextView.text = "Início: " + formatter.format(inputDateFormat.parse(vaga.startDate.toString()))
-            endDateTextView.text = "Fim: " + formatter.format(inputDateFormat.parse(vaga.endDate.toString()))
+            startDateTextView.text = "Início: " + vaga.startDate
+            endDateTextView.text = "Fim: " + vaga.endDate
+
+            deletebutton.setOnClickListener {
+                deletar(jobs[adapterPosition].id)
+            }
+
+            if(tipoAnuncios == "gerais"){
+                deletebutton.visibility = View.GONE
+            }
 
             itemView.setOnClickListener {
                 listener.onJobItemClick(vaga)

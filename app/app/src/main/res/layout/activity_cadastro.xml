@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,12 +38,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cadastro_message"
+            android:maxLines="1"
+            android:singleLine="true"
             android:layout_marginTop="10dp"
             android:hint="@string/input_name"
             android:paddingHorizontal="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_input"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -60,6 +64,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mail_input"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -77,6 +83,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_input"
                 android:layout_width="match_parent"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="textPassword"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -87,6 +96,8 @@
             android:id="@+id/tipo_conta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
             android:layout_below="@+id/password_layout"
             android:hint="Tipo de conta" />
 
@@ -115,14 +126,13 @@
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <Button
-            android:background="@drawable/button_rounded"
             android:id="@+id/cadastro_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toggleButton"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="16dp"
-            android:hint="CRIAR CONTA" />
+            android:layout_marginTop="8dp"
+            android:text="CRIAR CONTA" />
 
         <Button
             android:id="@+id/login_button"
@@ -130,9 +140,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/cadastro_button"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/button_rounded"
-            android:hint="LOGIN" />
+            android:layout_marginTop="8dp"
+            android:text="LOGIN" />
 
     </RelativeLayout>
 

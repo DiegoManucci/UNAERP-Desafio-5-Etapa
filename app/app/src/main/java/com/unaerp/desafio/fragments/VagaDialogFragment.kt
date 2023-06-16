@@ -1,24 +1,40 @@
-package com.unaerp.desafio
+package com.unaerp.desafio.fragments
 
-import Vaga
+import com.unaerp.desafio.model.Vaga
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.widget.EditText
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.unaerp.desafio.R
+import com.unaerp.desafio.responses.AnnouncementResponse
+import com.unaerp.desafio.services.AnnouncementService
+import com.unaerp.desafio.services.config.ServiceCreator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class VagaDialogFragment(private val vaga: Vaga) : DialogFragment() {
+
+    private var deleteButtonVisible: Boolean = false
+
+    fun setDeleteButtonVisible(visible: Boolean) {
+        deleteButtonVisible = visible
+    }
 
     override fun onStart() {
         super.onStart()
@@ -27,9 +43,8 @@ class VagaDialogFragment(private val vaga: Vaga) : DialogFragment() {
         phoneImageView?.setOnClickListener {
 
             val phoneTextView = dialog?.window?.decorView?.findViewById<TextView>(R.id.contactPhoneValueTextView)
-            val phone = phoneTextView?.text.toString().replace("[^\\d]".toRegex(), "").toInt()
+            val phone = phoneTextView?.text.toString().replace("[^\\d]".toRegex(), "")
 
-            //Make a phone call
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone))
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
@@ -66,9 +81,6 @@ class VagaDialogFragment(private val vaga: Vaga) : DialogFragment() {
             val startDateValueTextView = view.findViewById<TextView>(R.id.startDateValueTextView)
             val endDateValueTextView = view.findViewById<TextView>(R.id.endDateValueTextView)
 
-            val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US)
-            val formatter = SimpleDateFormat("dd/MM/yyyy")
-
             areaValueTextView.text = vaga.area
             descriptionValueTextView.text = vaga.description
             remunerationValueTextView.text = vaga.remuneration.toString()
@@ -76,10 +88,11 @@ class VagaDialogFragment(private val vaga: Vaga) : DialogFragment() {
             contactEmailValueTextView.text = vaga.contactEmail
             contactPhoneValueTextView.text = vaga.contactPhone
             advertiserValueTextView.text = vaga.advertiser
-            startDateValueTextView.text = formatter.format(inputDateFormat.parse(vaga.startDate.toString()))
-            endDateValueTextView.text = formatter.format(inputDateFormat.parse(vaga.endDate.toString()))
+            startDateValueTextView.text = vaga.startDate
+            endDateValueTextView.text = vaga.endDate
 
             builder.create()
+
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 

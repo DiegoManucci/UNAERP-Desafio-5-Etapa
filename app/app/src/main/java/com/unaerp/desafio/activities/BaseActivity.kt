@@ -1,10 +1,9 @@
-package com.unaerp.desafio
+package com.unaerp.desafio.activities
 
 import com.unaerp.desafio.R
-import com.unaerp.desafio.ListaVagasFragment
+import com.unaerp.desafio.fragments.ListaVagasFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 

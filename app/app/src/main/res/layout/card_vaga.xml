@@ -57,6 +57,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textStartDate"
             tools:layout_editor_absoluteX="16dp" />
 
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textEndDate"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
+            android:text="Excluir"
+            android:onClick="onDeleteButtonClick"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

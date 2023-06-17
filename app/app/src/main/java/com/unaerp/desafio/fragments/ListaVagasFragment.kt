@@ -39,6 +39,18 @@ class ListaVagasFragment : Fragment() {
 
     val formatter = SimpleDateFormat("dd/MM/yyyy")
 
+    override fun onResume() {
+        super.onResume()
+
+        val tipoAnuncios = arguments?.getString("anuncios") ?: return
+
+        if (tipoAnuncios == "gerais") {
+            getAllAnnouncements()
+        } else {
+            getMyAnnouncements()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
